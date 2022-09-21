@@ -1,0 +1,1 @@
+# Algoritimos_Geneticos_2022.2
