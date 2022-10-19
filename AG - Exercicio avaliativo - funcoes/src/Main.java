@@ -19,6 +19,7 @@ public class Main {
         for (int i = 0; i < generations; i++) {
             ArrayList<Chromosome> newChromosomes = new ArrayList<>();
 
+            /*
             ArrayList<Chromosome> tournament = new ArrayList<>();
 
             while(newChromosomes.size() < 1000){
@@ -35,6 +36,49 @@ public class Main {
                     }
                 }
                 newChromosomes.add(tournament.get(bestFitnessPos));
+            }*/
+            double totalFitness = 0.0;
+            for (Chromosome chromosome: chromosomes) {
+                totalFitness += chromosome.getFitness();
+            }
+
+            /*
+            ArrayList<Double> percentage = new ArrayList<>();
+
+            for (int j = 0; j < chromosomes.size(); j++) {
+                percentage.add(chromosomes.get(j).getFitness()/totalFitness);
+            }*/
+            /*
+            for (int k = 0; k < chromosomes.size(); k++) {
+                double alpha = totalFitness * rd.nextDouble();
+                double iSum = 0;
+                int j = 0;
+                do {
+                    iSum += chromosomes.get(j).getFitness();
+                    j += 1;
+                }while (iSum < alpha && j < chromosomes.size()-1);
+                newChromosomes.add(chromosomes.get(j));
+
+            }*/
+
+            ArrayList<Chromosome> rank = new ArrayList<>(chromosomes);
+            Collections.sort(rank);
+
+            ArrayList<Double> percentage = new ArrayList<>();
+            for (int j = 0; j < chromosomes.size(); j++) {
+                percentage.add((double)(rank.indexOf(chromosomes.get(i)))/(chromosomes.size()*(chromosomes.size()-1)));
+            }
+
+            double vsum = 1.0/(chromosomes.size() - 2001);
+
+            for (int j = 0; j < chromosomes.size(); j++) {
+                double alpha = vsum * rd.nextDouble();
+                for (int k = 0; k < chromosomes.size(); k++) {
+                    if (percentage.get(j) <= alpha){
+                        newChromosomes.add(chromosomes.get(k));
+                        break;
+                    }
+                }
             }
 
             ArrayList<Chromosome> recombined = new ArrayList<>();
